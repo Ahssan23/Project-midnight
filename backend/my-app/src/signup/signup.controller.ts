@@ -8,6 +8,7 @@ export class SignupController {
 
     @Post('signup')
     async signup(@Body() dto:SignupDto){
+        console.log(dto)
         const signup = this.signupService.signup(dto);
         return signup;
     }

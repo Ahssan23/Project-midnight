@@ -3,6 +3,7 @@ import { createObserveModule } from '@nestjs/observe';
 import { SignupModule } from './signup/signup.module.js';
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule  } from '@nestjs/sequelize';
+import { LoginModule } from './login/login.module.js';
 
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
@@ -30,6 +31,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     
   }),
     SignupModule,
+    LoginModule,
     
   ],
   controllers: [],

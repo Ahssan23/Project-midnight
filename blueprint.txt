@@ -1,0 +1,235 @@
+1. Landing / Home
+Home
+ ├── Hero
+ │    ├── Headline
+ │    ├── Description
+ │    └── [Create your showroom]
+ │
+ ├── How it works
+ │    1. Create showroom
+ │    2. Add your cars
+ │    3. Share your link
+ │
+ └── [Login] [Sign up]
+2. Authentication
+Create Showroom
+      ↓
+Not logged in?
+      ↓
+Login / Signup
+      ↓
+Authenticated
+      ↓
+Create Showroom
+
+User account:
+
+User
+ ├── id
+ ├── email
+ ├── passwordHash
+ └── createdAt
+3. Create Showroom
+
+After login:
+
+Create your showroom
+
+Company name
+[ Miami Elite Rentals ]
+
+Description
+[ Premium car rentals in Miami... ]
+
+Logo
+[ Upload ]
+
+Location
+[ Miami, Florida ]
+
+Tagline
+[ Drive Something Extraordinary ]
+
+[ Create Showroom ]
+
+Database:
+
+Showroom
+ ├── id
+ ├── ownerId
+ ├── name
+ ├── slug
+ ├── description
+ ├── tagline
+ ├── logo
+ ├── location
+ ├── createdAt
+ └── updatedAt
+
+Generate:
+
+yourapp.com/showroom/miami-elite-rentals
+4. Showroom Dashboard
+
+After creation:
+
+Dashboard
+
+Miami Elite Rentals
+
+[ View showroom ]
+[ Copy showroom link ]
+
+────────────────
+
+Showroom
+Cars
+Quote Requests
+Messages
+Analytics
+Settings
+
+MVP can start with:
+
+Showroom
+Cars
+Settings
+
+Add the others later.
+
+5. Add Cars
+Add vehicle
+
+Make
+[ BMW ]
+
+Model
+[ M4 ]
+
+Year
+[ 2025 ]
+
+Price
+[ $180 ] / day
+
+Description
+[ ... ]
+
+Photos
+[ Upload ]
+
+Location
+[ Miami ]
+
+Availability
+[ Available ]
+
+[ Add vehicle ]
+
+Database:
+
+Vehicle
+ ├── id
+ ├── showroomId
+ ├── make
+ ├── model
+ ├── year
+ ├── description
+ ├── pricePerDay
+ ├── location
+ ├── status
+ ├── createdAt
+ └── updatedAt
+
+Separate photos table later:
+
+VehicleImage
+ ├── id
+ ├── vehicleId
+ └── url
+6. Public Showroom
+
+Customer visits:
+
+yourapp.com/showroom/miami-elite-rentals
+
+They see:
+
+[LOGO]
+
+MIAMI ELITE RENTALS
+
+"Drive Something Extraordinary"
+
+Premium car rentals in Miami...
+
+Miami, Florida
+
+[ Browse Cars ]
+
+────────────────────
+
+Our Fleet
+
+[ BMW M4 ]
+$180/day
+[ View ]
+
+[ Porsche 911 ]
+$250/day
+[ View ]
+
+[ G-Wagon ]
+$350/day
+[ View ]
+
+This page should feel like the rental company's own website.
+
+7. Vehicle Page
+yourapp.com/showroom/miami-elite-rentals/bmw-m4
+BMW M4
+
+[large photos]
+
+$180 / day
+
+2025
+Automatic
+5 seats
+
+Description...
+
+[ Request Quote ]
+[ Message ]
+
+Messaging can come later.
+
+8. Later: Search Engine
+
+Separate global discovery:
+
+Search
+
+[ Location: Miami ]
+[ Car: BMW ]
+[ Date ]
+
+[ Search ]
+
+Results:
+
+BMW M4
+$180/day
+Miami Elite Rentals
+
+[ View ]
+
+────────────────
+
+BMW M3
+$160/day
+Miami Luxury Cars
+
+[ View ]
+
+Clicking the result takes them into that company's branded showroom.
