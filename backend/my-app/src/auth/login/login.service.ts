@@ -1,6 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { User } from '../models/user.model.js';
-import { LoginDto } from '../dto/login.dto.js';
+import { User } from '../../models/user.model.js';
+import { LoginDto } from '../../common/dto/login.dto.js';
 import { InjectModel } from '@nestjs/sequelize';
 import { Op } from 'sequelize';
 import { verify } from '@node-rs/argon2';

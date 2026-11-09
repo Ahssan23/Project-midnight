@@ -1,0 +1,44 @@
+- fetch the showrooms
+- add cars
+- fix ui
+
+
+
+
+
+
+
+- when user sends requesto to make car, check if he is seller or not, then check if seller if he has showroom or not  (done)
+- create shworoom, add guard in showroom , do logging in showroom.
+
+
+- showroom , user should be seller and shoould have not existing showroom
+- fix some frontend, make the showroom page, to make showroom and make car 
+
+
+
+11/3/2026
+
+- make a method for get showroom (done)
+- make a frontend for that (basic)
+- make a method for car (fixing basically)
+- make frontend for car 
+- final testing 
+- push code to 
+
+
+
+11/5/2026
+
+- make dynamic route parameters 
+- display cars in showroom i
+- user type doesnt matter on dynamic routes soo set the infrastructure and design accordingly
+
+
+
+
+- if there is no showroom display there is no showroom for that
+- add a backend api for adding a car 
+
+
+- add get car api 

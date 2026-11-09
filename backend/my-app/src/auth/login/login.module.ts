@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { LoginController } from './login.controller.js';
 import { LoginService } from './login.service.js';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { User } from '../models/user.model.js';
+import { User } from '../../models/user.model.js';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { JwtModuleAsyncOptions } from '@nestjs/jwt';

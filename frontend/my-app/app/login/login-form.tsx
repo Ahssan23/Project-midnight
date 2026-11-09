@@ -1,40 +1,87 @@
 "use client";
-import { useActionState, } from "react";
+
+import { useActionState } from "react";
 import { login } from "./action.js";
 
-
 export default function LoginForm() {
-  const [response, formAction ] = useActionState(login,null);
+  const [response, formAction] = useActionState(login, null);
+
   return (
-    <form
-      action={formAction}
-      className="mx-auto flex min-h-screen max-w-md flex-col justify-center gap-4 px-6"
-    >
-      <h1 className="mb-2 text-3xl font-bold">Welcome back</h1>
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        className="rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-black"
-      />
+    <main className="min-h-screen bg-[#F8F7F4] text-[#181818]">
+      <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6">
+        <div className="mb-10">
+          <p className="mb-4 text-sm font-medium uppercase tracking-[0.16em] text-[#6B6B67]">
+            Fleetly
+          </p>
 
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        className="rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-black"
-      />
+          <h1 className="text-4xl font-semibold tracking-[-0.035em]">
+            Welcome back.
+          </h1>
 
-      <button
-        type="submit"
-        className="rounded-lg bg-black px-4 py-3 font-semibold text-white hover:bg-gray-800"
-      >
-        Log in
-      </button>
+          <p className="mt-3 text-base text-[#6B6B67]">
+            Log in to manage your rental fleet.
+          </p>
+        </div>
 
-      {response && (
-        <pre>{JSON.stringify(response.message, null, 2)}</pre>
-      )}
-    </form>
+        <form action={formAction} className="flex flex-col gap-5">
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="email"
+              className="text-sm font-medium"
+            >
+              Email
+            </label>
+
+            <input
+              id="email"
+              type="email"
+              name="email"
+              placeholder="you@example.com"
+              className="h-12 rounded-md border border-[#E3E1DC] bg-white px-4 text-sm outline-none transition focus:border-[#181818]"
+            />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="password"
+              className="text-sm font-medium"
+            >
+              Password
+            </label>
+
+            <input
+              id="password"
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              className="h-12 rounded-md border border-[#E3E1DC] bg-white px-4 text-sm outline-none transition focus:border-[#181818]"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="mt-2 h-12 rounded-md bg-[#181818] px-4 text-sm font-medium text-white transition-colors hover:bg-black"
+          >
+            Log in
+          </button>
+
+          {response && (
+            <p className="text-sm text-red-600">
+              {response.message}
+            </p>
+          )}
+        </form>
+
+        <p className="mt-7 text-sm text-[#6B6B67]">
+          Don't have an account?{" "}
+          <a
+            href="/signup"
+            className="font-medium text-[#181818] underline underline-offset-4"
+          >
+            Sign up
+          </a>
+        </p>
+      </div>
+    </main>
   );
 }
