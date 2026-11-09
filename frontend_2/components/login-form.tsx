@@ -2,8 +2,10 @@
 
 import { useState, type FormEvent } from "react";
 import { loginAction } from "@/app/login/action";
+import { useRouter } from "next/navigation";
 
 export function LoginForm() {
+  const router = useRouter();
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -12,7 +14,8 @@ export function LoginForm() {
     event.preventDefault(); setMessage(""); setError(""); setLoading(true);
     try {
       const result = await loginAction(new FormData(event.currentTarget));
-      result.ok ? setMessage(result.message) : setError(result.message);
+      if (result.ok) router.push("/showroom");
+      else setError(result.message);
     } catch { setError("Something went wrong. Please try again."); }
     finally { setLoading(false); }
   }

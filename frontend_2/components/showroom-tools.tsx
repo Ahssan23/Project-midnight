@@ -23,14 +23,8 @@ export function ShowroomTools() {
         return;
       }
 
-      const data = result.data;
-      const showroom = data?.showroom ?? data?.data?.showroom ?? data?.data ?? data;
-      const id = showroom?.id ?? showroom?._id ?? showroom?.ShowroomId ?? showroom?.showroomId;
-      if (id !== undefined) {
-        router.push(`/showroom/${id}`);
-        return;
-      }
-      setMessage(`${result.message} The API response did not include a showroom ID.`);
+      router.refresh();
+      setMessage(result.message);
     } catch {
       setError("Something went wrong. Please try again.");
     } finally {
@@ -42,7 +36,7 @@ export function ShowroomTools() {
 
   return (
     <main className="mx-auto min-h-screen max-w-5xl px-4 py-10">
-      <div className="mb-6"><a href="/dashboard" className="text-sm text-blue-600 hover:underline">← Dashboard</a></div>
+      <div className="mb-6"><a href="/" className="text-sm text-blue-600 hover:underline">← Home</a></div>
       <h1 className="text-3xl font-semibold tracking-tight">Create a showroom</h1>
       <p className="mt-2 text-slate-500">After creation, the showroom ID opens its detail page with its cars.</p>
       <form onSubmit={create} className="mt-8 max-w-xl space-y-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">

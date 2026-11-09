@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 const API_URL = `${process.env.API_BASE_URL ?? "http://localhost:4000/api"}/showroom`;
 
 export async function createShowroomAction(formData) {
-  const token = (await cookies()).get("token")?.value;
+  const token = (await cookies()).get("access_token")?.value;
 
   try {
     const response = await fetch(API_URL, {
@@ -26,7 +26,7 @@ export async function createShowroomAction(formData) {
     const newToken = data.token ?? data.accessToken ?? data.data?.token ?? (cookieToken ? decodeURIComponent(cookieToken) : undefined);
 
     if (newToken && response.ok) {
-      (await cookies()).set("token", newToken, {
+      (await cookies()).set("access_token", newToken, {
         httpOnly: true,
         sameSite: "lax",
         secure: process.env.NODE_ENV === "production",

@@ -1,6 +1,8 @@
-import Link from "next/link";
-import { getCarsForPageAction, getShowroomForPageAction } from "./action";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { ShowroomDetails } from "@/components/showroom-details";
+import { ShowroomTools } from "@/components/showroom-tools";
+import { getCarsForPageAction, getShowroomForPageAction } from "./action";
 
 type ApiObject = Record<string, unknown>;
 
@@ -10,15 +12,19 @@ function asObject(value: unknown): ApiObject | null {
     : null;
 }
 
-function unwrapShowroom(data: unknown): ApiObject | null {
-  const response = asObject(data);
+function unwrapShowroom(value: unknown): ApiObject | null {
+  if (value === false || value === null || value === undefined) return null;
+  const response = asObject(value);
+  if (response?.showroom === false || response?.data === false) return null;
   const nested = asObject(response?.data);
-  return asObject(response?.showroom) ?? asObject(nested?.showroom) ?? nested ?? response;
+  if (nested?.showroom === false) return null;
+  const showroom = asObject(response?.showroom) ?? asObject(nested?.showroom) ?? nested ?? response;
+  return showroom && Object.keys(showroom).length > 0 ? showroom : null;
 }
 
-function unwrapCars(data: unknown): ApiObject[] {
-  if (Array.isArray(data)) return data.filter((car): car is ApiObject => asObject(car) !== null);
-  const response = asObject(data);
+function unwrapCars(value: unknown): ApiObject[] {
+  if (Array.isArray(value)) return value.filter((car): car is ApiObject => asObject(car) !== null);
+  const response = asObject(value);
   const nested = asObject(response?.data);
   const cars = response?.cars ?? nested?.cars ?? response?.data;
   return Array.isArray(cars) ? cars.filter((car): car is ApiObject => asObject(car) !== null) : [];
@@ -26,37 +32,15 @@ function unwrapCars(data: unknown): ApiObject[] {
 
 export default async function ShowroomByIdPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const [showroomResponse, carsResponse] = await Promise.all([
-    getShowroomForPageAction(),
-    getCarsForPageAction(),
-  ]);
-  const showroom = showroomResponse.ok ? unwrapShowroom(showroomResponse.data) : null;
-  const returnedId = showroom?.id ?? showroom?._id ?? showroom?.ShowroomId ?? showroom?.showroomId;
+  const token = (await cookies()).get("access_token")?.value;
+  if (!token) redirect("/login");
 
-  if (showroom && returnedId !== undefined && String(returnedId) !== id) {
-    return (
-      <main className="mx-auto min-h-screen max-w-5xl px-4 py-10">
-        <Link href="/showroom" className="text-sm text-blue-600 hover:underline">← Showrooms</Link>
-        <section className="mt-8 rounded-xl border border-amber-200 bg-amber-50 p-6 text-amber-900">
-          <h1 className="text-xl font-semibold">This link points to showroom {id}</h1>
-          <p className="mt-2 text-sm">Your saved token returned showroom {returnedId}. The current API GET route returns the token owner’s showroom, so it cannot load another showroom by ID yet.</p>
-        </section>
-      </main>
-    );
-  }
+  const response = await getShowroomForPageAction();
+  const showroom = response.ok ? unwrapShowroom(response.data) : null;
+  if (!showroom) return <ShowroomTools />;
 
-  if (!showroom) {
-    return (
-      <main className="mx-auto min-h-screen max-w-5xl px-4 py-10">
-        <Link href="/showroom" className="text-sm text-blue-600 hover:underline">← Showrooms</Link>
-        <section className="mt-8 rounded-xl border border-red-200 bg-red-50 p-6 text-red-800">
-          <h1 className="text-xl font-semibold">Could not load showroom {id}</h1>
-          <p className="mt-2 text-sm">{showroomResponse.message}</p>
-        </section>
-      </main>
-    );
-  }
-
+  const showroomId = showroom.id ?? showroom._id ?? showroom.ShowroomId ?? showroom.showroomId ?? id;
+  const carsResponse = await getCarsForPageAction();
   const cars = carsResponse.ok ? unwrapCars(carsResponse.data) : [];
-  return <ShowroomDetails id={id} showroom={showroom} cars={cars} carsError={carsResponse.ok ? "" : carsResponse.message} />;
+  return <ShowroomDetails id={String(showroomId)} showroom={showroom} cars={cars} carsError={carsResponse.ok ? "" : carsResponse.message} />;
 }

@@ -20,7 +20,9 @@ export async function loginAction(formData) {
     });
     const data = await response.json().catch(() => ({}));
     if (!response.ok) return { ok: false, message: data.message ?? data.error ?? "Login failed." };
-    if (data) (await cookies()).set("access_token", data.jwt_token, { httpOnly: true, sameSite: "lax", secure: process.env.NODE_ENV === "production", path: "/" });
+    const token = data.jwt_token ?? data.token ?? data.accessToken ?? data.data?.jwt_token ?? data.data?.token;
+    if (token) (await cookies()).set("access_token", token, { httpOnly: true, sameSite: "lax", secure: process.env.NODE_ENV === "production", path: "/" });
+    else return { ok: false, message: "Login succeeded, but the API did not return an access token." };
     return { ok: true, message: data.message ?? "Login successful." };
   } catch (err){
     console.log(err);

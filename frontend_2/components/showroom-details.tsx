@@ -19,7 +19,7 @@ export function ShowroomDetails({ id, showroom, cars, carsError }: { id: string;
 
   return (
     <main className="mx-auto min-h-screen max-w-5xl px-4 py-10">
-      <Link href="/dashboard" className="text-sm text-blue-600 hover:underline">← Dashboard</Link>
+      <Link href="/showroom" className="text-sm text-blue-600 hover:underline">← Showroom</Link>
       <header className="mt-6 flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-sm font-medium text-blue-600">Showroom #{id}</p>
