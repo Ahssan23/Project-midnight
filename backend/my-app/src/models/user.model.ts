@@ -15,6 +15,7 @@ interface UserAttributes {
   email: string;
   name: string;
   password: string;
+  isVerified:boolean;
 }
 
 interface UserCreationAttributes extends Omit<UserAttributes, "id"> {}
@@ -65,4 +66,13 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
     allowNull: false,
   })
   declare password: string;
+
+    @Column({
+    type:DataType.BOOLEAN,
+    allowNull:false,
+    unique:false
+})
+
+  declare isVerified:boolean
+
 }

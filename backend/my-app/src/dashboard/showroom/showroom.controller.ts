@@ -5,11 +5,11 @@ import { ShowroomGuard } from '../../common/guards/showroom.guard.js';
 import type { Request } from 'express';
 
 @Controller('api')
-@UseGuards(ShowroomGuard)
 export class DashboardController {
     constructor(private dashboardService:DashboardService){}
-
+    
     @Post("showroom")
+    @UseGuards(ShowroomGuard)
     async registerShowroom(@Body() dto:ShowroomDto, @Req() req:Request){
         const register =await this.dashboardService.registerShowroom(dto,req);
 

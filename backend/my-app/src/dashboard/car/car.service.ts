@@ -47,23 +47,21 @@ export class CarService {
         }
     }
 
-    async getCar(req:Request){
+    async getCar(id:number){
 
-        const cookie = req.cookies?.access_token;
-        const jwt = await this.jwtService.decode(cookie);
+ 
 
         const showroom = await this.showroomModel.findOne({
             where:{
-                userId:jwt.id
+                id:id
             }
         })
-        if(showroom ){
+        if(showroom){
             const car = await this.carModel.findAll({
                 where:{
                     showroomId:showroom?.id
                 }
             })
-            console.log(showroom?.id,'==========-------DFASFADFAD')
 
             return car;
             

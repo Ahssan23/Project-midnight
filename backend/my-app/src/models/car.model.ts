@@ -5,6 +5,7 @@ import {
   DataType,
   PrimaryKey,
   AutoIncrement,
+  AllowNull,
 } from "sequelize-typescript";
 
 interface CarAttributes {
@@ -60,6 +61,7 @@ export class Car extends Model<CarAttributes, CarCreationAttributes> {
     unique: false,
   })
   declare available: boolean;
+
 
   
 }

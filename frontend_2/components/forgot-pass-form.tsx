@@ -1,0 +1,53 @@
+"use client";
+
+import { useState, type FormEvent } from "react";
+import { forgotPassAction } from "@/app/forgot-pass/action";
+
+export function ForgotPassForm() {
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setMessage("");
+    setError("");
+    setLoading(true);
+
+    try {
+      const result = await forgotPassAction(new FormData(event.currentTarget));
+      if (result.ok) setMessage(result.message);
+      else setError(result.message);
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const input = "mt-1.5 w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100";
+
+  return (
+    <form onSubmit={submit} className="space-y-5">
+      <label className="block text-sm font-medium text-slate-700">
+        Email address
+        <input
+          className={input}
+          name="email"
+          type="email"
+          autoComplete="email"
+          placeholder="you@example.com"
+          required
+        />
+      </label>
+      {error && <p role="alert" className="text-sm text-red-700">{error}</p>}
+      {message && <p role="status" className="text-sm text-green-700">{message}</p>}
+      <button
+        disabled={loading}
+        className="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-60"
+      >
+        {loading ? "Sending…" : "Send reset link"}
+      </button>
+    </form>
+  );
+}
